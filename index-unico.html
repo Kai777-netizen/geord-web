@@ -1,0 +1,961 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GEORD · Seguimiento inteligente, seguridad real</title>
+<meta name="description" content="GEORD conecta a familias, conductores y centros educativos para facilitar el seguimiento del transporte escolar.">
+<meta name="theme-color" content="#0A2472">
+
+<link rel="icon" type="image/jpeg" href="imagenes/favicon.jpeg">
+<link rel="apple-touch-icon" href="imagenes/favicon.jpeg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --navy:#0A2472;
+  --navy-dark:#071A55;
+  --navy-soft:#E7ECF7;
+  --red:#E5484D;
+  --yellow:#F4B400;
+  --bg:#F4F7FA;
+  --white:#FFFFFF;
+  --text:#3B4A6B;
+  --muted:#8793AB;
+  --border:#E3E9F1;
+  --success:#16A34A;
+  --radius:20px;
+  --shadow:0 8px 28px rgba(10,36,114,.08);
+  --font:'Roboto',Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{
+  margin:0;
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  font-size:16px;
+  line-height:1.65;
+}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+button{font-family:inherit}
+h1,h2,h3{
+  color:var(--navy);
+  line-height:1.2;
+  margin:0 0 16px;
+  font-weight:800;
+  letter-spacing:-.4px;
+}
+h1{font-size:clamp(2.3rem,5vw,4rem)}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+h3{font-size:1.2rem}
+p{margin:0 0 16px}
+ul,ol{margin:0;padding:0;list-style:none}
+button,a{-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
+
+.wrap{width:min(1120px,calc(100% - 40px));margin-inline:auto}
+.narrow{width:min(760px,calc(100% - 40px));margin-inline:auto}
+.muted{color:var(--muted)}
+.lead{font-size:1.12rem;color:var(--text);max-width:620px}
+.center{text-align:center}
+.section{padding:clamp(60px,8vw,100px) 0}
+.tint{background:#EAF0F8}
+.head{text-align:center;max-width:760px;margin:0 auto 42px}
+.head .lead{margin-inline:auto}
+.accent-line{
+  display:block;width:58px;height:5px;
+  background:var(--yellow);border-radius:8px;margin:0 0 22px;
+}
+.head .accent-line{margin:0 auto 20px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--navy);font-size:.85rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:1.2px;
+  margin-bottom:18px;
+}
+.eyebrow::before{
+  content:"";width:9px;height:9px;
+  background:var(--red);border-radius:50%;
+}
+
+/* Botones */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:9px;min-height:48px;padding:12px 22px;
+  border-radius:12px;text-decoration:none;font-weight:700;
+  border:2px solid transparent;cursor:pointer;
+  transition:background .2s,color .2s,transform .2s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover{background:var(--navy-dark)}
+.btn-secondary{background:var(--yellow);color:var(--navy-dark)}
+.btn-secondary:hover{background:#FFD04A}
+.btn-outline{background:transparent;border-color:var(--navy);color:var(--navy)}
+.btn-outline:hover{background:var(--navy);color:#fff}
+
+/* Iconos */
+.ico{
+  width:24px;height:24px;flex:none;
+  fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.icon{
+  display:grid;place-items:center;
+  width:52px;height:52px;border-radius:15px;
+  background:var(--navy-soft);color:var(--navy);
+}
+.icon.red{background:#FDE8E8;color:var(--red)}
+.icon.yellow{background:#FFF4CE;color:#8A6200}
+.icon .ico{width:25px;height:25px}
+
+/* Navegación y logo */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.nav-bar{
+  min-height:82px;display:flex;align-items:center;
+  justify-content:space-between;gap:20px;
+}
+.brand{
+  display:flex;align-items:center;
+  text-decoration:none;flex-shrink:0;
+}
+.brand img{
+  display:block;width:auto;height:64px;
+  max-width:220px;object-fit:contain;
+}
+.nav-links{display:flex;align-items:center;gap:22px}
+.nav-links a:not(.btn){
+  font-size:.94rem;font-weight:600;
+  text-decoration:none;color:var(--text);
+}
+.nav-links a:not(.btn):hover{color:var(--red)}
+.nav-links .btn{min-height:42px;padding:9px 16px}
+.nav-toggle{
+  display:none;place-items:center;width:46px;height:46px;
+  border:1px solid var(--border);border-radius:12px;
+  background:white;color:var(--navy);cursor:pointer;
+}
+@media(max-width:900px){
+  .nav-toggle{display:grid}
+  .nav-links{
+    display:none;position:absolute;top:82px;left:0;right:0;
+    padding:16px 22px 24px;background:#fff;
+    border-bottom:1px solid var(--border);
+    flex-direction:column;align-items:stretch;gap:0;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a:not(.btn){padding:13px 0;border-bottom:1px solid var(--border)}
+  .nav-links .btn{margin-top:16px}
+}
+@media(max-width:480px){
+  .brand img{height:55px;max-width:185px}
+}
+
+/* Portada */
+.hero{padding:76px 0 86px;overflow:hidden}
+.hero-grid{
+  display:grid;grid-template-columns:1.05fr .95fr;
+  gap:54px;align-items:center;
+}
+.hero .lead{margin-bottom:25px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero-note{margin-top:22px;color:var(--muted);font-size:.92rem}
+.hero-visual{
+  min-height:480px;position:relative;
+  display:grid;place-items:center;
+  border-radius:40px;
+  background:linear-gradient(145deg,#E8EEF9,#F9FAFC);
+}
+.hero-visual::before,.hero-visual::after{
+  content:"";position:absolute;border-radius:50%;
+}
+.hero-visual::before{
+  width:190px;height:190px;background:#D8E2F6;top:28px;right:20px;
+}
+.hero-visual::after{
+  width:85px;height:85px;background:#FFE6A0;bottom:35px;left:24px;
+}
+.hero-route{position:absolute;inset:0;width:100%;height:100%}
+.phone-holder{position:relative;z-index:2;width:min(265px,72%)}
+@media(max-width:850px){
+  .hero{padding-top:48px}
+  .hero-grid{grid-template-columns:1fr;gap:35px}
+  .hero-visual{min-height:450px}
+}
+
+/* Teléfonos */
+.phone{
+  margin:0;width:100%;aspect-ratio:9/19;
+  padding:9px;border-radius:36px;
+  background:#151923;border:1px solid #343946;
+  box-shadow:0 22px 55px rgba(7,26,85,.22);
+  overflow:hidden;
+}
+.phone-screen{
+  position:relative;width:100%;height:100%;
+  border-radius:27px;overflow:hidden;background:#fff;
+}
+.phone-screen img,.phone-screen video{
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+}
+.image-placeholder{
+  height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:20px;background:#F4F7FA;color:var(--muted);
+  overflow-wrap:anywhere;
+}
+.image-placeholder strong{color:var(--navy);margin:10px 0 4px}
+.image-placeholder .ico{width:34px;height:34px;color:var(--red)}
+
+/* Cuadrículas y tarjetas */
+.grid{display:grid;gap:22px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{
+  padding:27px;background:#fff;border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+}
+.card h3{margin-top:18px}
+.card p{margin-bottom:0}
+.card:hover{border-color:#C5D2E9}
+@media(max-width:950px){
+  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+  .g4,.g3{grid-template-columns:1fr}
+  .card{padding:23px}
+}
+
+/* Roles */
+.roles{display:grid;gap:14px}
+.roles li{
+  display:flex;align-items:flex-start;gap:15px;
+  padding:18px;background:#fff;border:1px solid var(--border);
+  border-radius:15px;
+}
+.roles strong{display:block;color:var(--navy);margin-bottom:3px}
+.roles p{margin:0;color:var(--muted);font-size:.94rem}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:center;
+}
+@media(max-width:850px){.about-grid{grid-template-columns:1fr;gap:30px}}
+
+/* GPS */
+.split{
+  display:grid;grid-template-columns:1.1fr .9fr;
+  gap:60px;align-items:center;
+}
+.split-visual{width:min(285px,100%);margin:auto}
+.steps{counter-reset:step;display:grid;gap:18px;margin:26px 0}
+.steps li{position:relative;padding-left:48px;min-height:34px}
+.steps li::before{
+  counter-increment:step;content:counter(step);
+  position:absolute;left:0;top:0;
+  display:grid;place-items:center;width:32px;height:32px;
+  border-radius:50%;background:var(--navy);color:#fff;font-weight:800;
+}
+@media(max-width:850px){.split{grid-template-columns:1fr;gap:35px}}
+
+/* Funciones */
+.feature-list{display:grid;gap:15px;margin-top:20px}
+.feature-list li{display:flex;gap:12px;align-items:flex-start}
+.feature-list li span:last-child{padding-top:2px}
+.feature-list .icon{width:38px;height:38px;border-radius:11px}
+.feature-list .ico{width:20px;height:20px}
+.check-list{display:grid;gap:12px;margin-top:18px}
+.check-list li{position:relative;padding-left:27px}
+.check-list li::before{
+  content:"";position:absolute;left:2px;top:7px;
+  width:12px;height:7px;
+  border-left:3px solid var(--success);
+  border-bottom:3px solid var(--success);
+  transform:rotate(-45deg);
+}
+
+/* Galería */
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.gallery-item{min-width:0}
+.gallery-item .phone{max-width:250px;margin:auto}
+.gallery-caption{
+  text-align:center;margin:15px 0 0;
+  font-weight:700;color:var(--navy);
+}
+@media(max-width:950px){
+  .gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:520px){
+  .gallery{gap:16px}
+  .gallery-item .phone{max-width:270px}
+}
+
+/* Video vertical: teléfono más pequeño */
+.demo-wrap{
+  width:min(280px,100%);
+  margin:0 auto;
+}
+.demo-phone{
+  width:100%;
+  aspect-ratio:9/19;
+  padding:9px;
+  background:#151923;
+  border:1px solid #343946;
+  border-radius:34px;
+  box-shadow:0 25px 60px rgba(7,26,85,.24);
+}
+.demo-screen{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:25px;
+  background:#000;
+}
+.demo-screen video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.demo-note{
+  text-align:center;color:var(--muted);
+  font-size:.92rem;margin-top:20px;
+}
+
+/* Equipo */
+.member{text-align:center}
+.member .avatar{
+  width:100px;height:100px;margin:0 auto 18px;
+  display:grid;place-items:center;overflow:hidden;
+  border-radius:50%;background:var(--navy-soft);
+  color:var(--navy);border:4px solid #fff;
+  box-shadow:0 0 0 1px var(--border);
+}
+.member .avatar img{width:100%;height:100%;object-fit:cover}
+.member .avatar .ico{width:42px;height:42px}
+.member h3{margin:0 0 7px}
+.member p{color:var(--muted);font-size:.94rem;margin:0}
+
+/* Preguntas frecuentes */
+.faq{display:grid;gap:13px}
+.faq details{
+  background:#fff;border:1px solid var(--border);
+  border-radius:15px;padding:0 21px;
+}
+.faq summary{
+  min-height:62px;display:flex;align-items:center;
+  justify-content:space-between;gap:16px;
+  color:var(--navy);font-weight:700;cursor:pointer;
+  list-style:none;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";font-size:1.5rem;color:var(--red);font-weight:500;
+}
+.faq details[open] summary::after{content:"−"}
+.faq details p{color:var(--muted);margin:0;padding:0 0 20px}
+
+/* Pie de página */
+.footer{background:var(--navy-dark);color:#D8E1F0;padding:58px 0 25px}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.footer .brand img{height:64px;max-width:220px}
+.footer .footer-tag{font-size:1.05rem;font-weight:700;color:#fff;margin-top:15px}
+.footer h3{color:#fff;font-size:1rem;margin-bottom:16px}
+.footer ul{display:grid;gap:10px}
+.footer a{text-decoration:none}
+.footer a:hover{color:var(--yellow)}
+.legal{
+  margin-top:38px;padding-top:22px;
+  border-top:1px solid rgba(255,255,255,.18);
+  font-size:.88rem;color:#B8C5DC;
+}
+.legal p{margin:0}
+@media(max-width:750px){.footer-grid{grid-template-columns:1fr;gap:30px}}
+@media(max-width:480px){.footer .brand img{height:55px}}
+
+/* Movimiento accesible */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Iconos -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15L6 16Z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.3 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="3"/><path d="M9 4v16"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h6"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5M16 5.2a3 3 0 0 1 0 5.6M18 14.8c1.8.6 3 2.2 3 4.7"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="m4 18 5.5-5 4 3.5 2.5-2 4 3.5"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-bar">
+    <a class="brand" href="#inicio" aria-label="Volver al inicio">
+      <img src="imagenes/logo1.jpeg" alt="Logo de GEORD">
+    </a>
+
+    <button class="nav-toggle" id="toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+      <svg class="ico"><use href="#i-menu"/></svg>
+    </button>
+
+    <nav class="nav-links" id="menu" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#conoce">Conoce GEORD</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#galeria">La aplicación</a>
+      <a href="#equipo">Nuestro equipo</a>
+      <a class="btn btn-primary" href="#demo">Ver demostración</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+<!-- PORTADA -->
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Transporte escolar inteligente</span>
+      <h1>Seguimiento inteligente, seguridad real</h1>
+      <span class="accent-line"></span>
+      <p class="lead">GEORD conecta a familias, centros educativos y conductores para facilitar el seguimiento del transporte escolar y mantener a las familias informadas durante el recorrido.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#conoce">Conoce GEORD</a>
+        <a class="btn btn-outline" href="#galeria">Ver la aplicación</a>
+      </div>
+      <p class="hero-note">Proyecto de estudiantes del Técnico en Desarrollo y Administración de Aplicaciones Informáticas.</p>
+    </div>
+
+    <div class="hero-visual">
+      <svg class="hero-route" viewBox="0 0 520 520" fill="none" aria-hidden="true">
+        <path d="M40 450 C130 400 85 320 180 290 S320 310 360 220 S430 120 475 55" stroke="#0A2472" stroke-opacity=".35" stroke-width="4" stroke-dasharray="8 10"/>
+        <circle cx="40" cy="450" r="12" fill="#E5484D"/>
+        <circle cx="180" cy="290" r="10" fill="#F4B400"/>
+        <circle cx="360" cy="220" r="10" fill="#F4B400"/>
+        <circle cx="475" cy="55" r="17" fill="#0A2472"/>
+        <circle cx="475" cy="55" r="6" fill="#fff"/>
+      </svg>
+      <div class="phone-holder">
+        <figure class="phone" data-screen="login" data-label="Inicio de sesión"></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="section">
+  <div class="wrap">
+    <header class="head">
+      <span class="eyebrow">El reto</span>
+      <h2>El transporte escolar necesita estar más conectado</h2>
+      <p class="lead">Cuando la información no llega a tiempo, las familias se preocupan y la organización del transporte se vuelve más difícil.</p>
+    </header>
+
+    <div class="grid g4">
+      <article class="card">
+        <span class="icon"><svg class="ico"><use href="#i-clock"/></svg></span>
+        <h3>Esperas con incertidumbre</h3>
+        <p>Las familias necesitan información clara sobre el recorrido del vehículo.</p>
+      </article>
+      <article class="card">
+        <span class="icon red"><svg class="ico"><use href="#i-pin"/></svg></span>
+        <h3>Ubicación del vehículo</h3>
+        <p>Conocer dónde se encuentra el transporte facilita el seguimiento del recorrido.</p>
+      </article>
+      <article class="card">
+        <span class="icon yellow"><svg class="ico"><use href="#i-bell"/></svg></span>
+        <h3>Comunicación</h3>
+        <p>Compartir información importante ayuda a mantener conectados a los usuarios.</p>
+      </article>
+      <article class="card">
+        <span class="icon"><svg class="ico"><use href="#i-file"/></svg></span>
+        <h3>Organización</h3>
+        <p>Las herramientas digitales ayudan a centralizar la información del servicio.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CONOCE GEORD -->
+<section class="section tint" id="conoce">
+  <div class="wrap about-grid">
+    <div>
+      <span class="eyebrow">Nuestra solución</span>
+      <h2>Innovación que conecta y protege</h2>
+      <span class="accent-line"></span>
+      <p>GEORD es una aplicación de seguimiento del transporte escolar que conecta a padres, conductores y administradores mediante herramientas digitales diseñadas para facilitar el seguimiento del vehículo, mejorar el acceso a la información y apoyar la gestión del servicio.</p>
+      <p>Su propósito es convertir la tecnología en una herramienta útil para la comunidad educativa, ofreciendo una experiencia organizada y accesible desde el teléfono.</p>
+    </div>
+
+    <ul class="roles">
+      <li>
+        <span class="icon"><svg class="ico"><use href="#i-heart"/></svg></span>
+        <div><strong>Padres y familias</strong><p>Acceden a información sobre el transporte escolar y el recorrido.</p></div>
+      </li>
+      <li>
+        <span class="icon red"><svg class="ico"><use href="#i-route"/></svg></span>
+        <div><strong>Conductores</strong><p>Utilizan las herramientas de su panel para gestionar el recorrido.</p></div>
+      </li>
+      <li>
+        <span class="icon yellow"><svg class="ico"><use href="#i-layers"/></svg></span>
+        <div><strong>Administradores</strong><p>Gestionan la información y las funciones administrativas del servicio.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- FUNCIONES -->
+<section class="section" id="funciones">
+  <div class="wrap">
+    <header class="head">
+      <span class="eyebrow">Funciones principales</span>
+      <h2>Una aplicación, diferentes herramientas</h2>
+      <p class="lead">Cada usuario cuenta con una interfaz adaptada a sus responsabilidades dentro del transporte escolar.</p>
+    </header>
+
+    <div class="grid g3">
+      <article class="card">
+        <span class="icon"><svg class="ico"><use href="#i-heart"/></svg></span>
+        <h3>Para padres y familias</h3>
+        <p>Información accesible para acompañar el recorrido escolar.</p>
+        <ul class="feature-list">
+          <li><span class="icon"><svg class="ico"><use href="#i-pin"/></svg></span><span>Seguimiento GPS del vehículo en el mapa.</span></li>
+          <li><span class="icon"><svg class="ico"><use href="#i-bell"/></svg></span><span>Notificaciones automáticas sobre eventos del transporte.</span></li>
+          <li><span class="icon"><svg class="ico"><use href="#i-file"/></svg></span><span>Acceso a la información disponible del servicio.</span></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <span class="icon red"><svg class="ico"><use href="#i-route"/></svg></span>
+        <h3>Para conductores</h3>
+        <p>Herramientas para gestionar el recorrido desde el teléfono.</p>
+        <ul class="feature-list">
+          <li><span class="icon"><svg class="ico"><use href="#i-panel"/></svg></span><span>Panel con las funciones asignadas al conductor.</span></li>
+          <li><span class="icon"><svg class="ico"><use href="#i-pin"/></svg></span><span>Inicio, reanudación y finalización del recorrido con seguimiento de ubicación.</span></li>
+          <li><span class="icon red"><svg class="ico"><use href="#i-chat"/></svg></span><span>Chat y botón SOS para reportar emergencias.</span></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <span class="icon yellow"><svg class="ico"><use href="#i-layers"/></svg></span>
+        <h3>Para administradores</h3>
+        <p>Funciones para mantener organizada la información del servicio.</p>
+        <ul class="feature-list">
+          <li><span class="icon"><svg class="ico"><use href="#i-users"/></svg></span><span>Gestión de la información de los usuarios.</span></li>
+          <li><span class="icon"><svg class="ico"><use href="#i-route"/></svg></span><span>Organización de rutas, paradas y horarios.</span></li>
+          <li><span class="icon yellow"><svg class="ico"><use href="#i-calendar"/></svg></span><span>Gestión de información relacionada con el servicio de transporte.</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GPS -->
+<section class="section tint" id="gps">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow">Ubicación en tiempo real</span>
+      <h2>Seguimiento GPS del vehículo</h2>
+      <p class="lead">GEORD permite consultar en el mapa la ubicación del vehículo escolar durante el recorrido.</p>
+      <ol class="steps">
+        <li>El conductor inicia el recorrido desde su aplicación.</li>
+        <li>El teléfono comparte la ubicación del vehículo mediante el servicio de localización.</li>
+        <li>La información se sincroniza para que las pantallas autorizadas puedan consultarla.</li>
+        <li>La familia abre el mapa y consulta la ubicación disponible del vehículo.</li>
+      </ol>
+      <p class="muted">La ubicación corresponde al vehículo escolar y no representa la ubicación individual de cada estudiante.</p>
+    </div>
+    <div class="split-visual">
+      <figure class="phone" data-screen="map" data-label="Mapa de seguimiento GPS"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- NOTIFICACIONES -->
+<section class="section">
+  <div class="narrow">
+    <header class="head">
+      <span class="eyebrow">Comunicación</span>
+      <h2>Notificaciones automáticas</h2>
+      <p class="lead">GEORD incorpora Firebase Cloud Messaging para enviar notificaciones push y facilitar la comunicación de información relevante sobre el transporte escolar.</p>
+    </header>
+    <div class="card center">
+      <span class="icon yellow" style="margin:0 auto 18px"><svg class="ico"><use href="#i-bell"/></svg></span>
+      <h3>La información, más cerca de las familias</h3>
+      <p>Las notificaciones ayudan a comunicar eventos relevantes del servicio sin depender exclusivamente de mensajes manuales.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section class="section tint" id="beneficios">
+  <div class="wrap">
+    <header class="head">
+      <span class="eyebrow">Lo que aporta GEORD</span>
+      <h2>Una experiencia pensada para todos</h2>
+    </header>
+    <div class="grid g3">
+      <article class="card">
+        <span class="icon"><svg class="ico"><use href="#i-heart"/></svg></span>
+        <h3>Padres y familias</h3>
+        <ul class="check-list">
+          <li>Información del recorrido.</li>
+          <li>Ubicación del vehículo en el mapa.</li>
+          <li>Notificaciones sobre el transporte.</li>
+          <li>Menos incertidumbre durante la espera.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <span class="icon red"><svg class="ico"><use href="#i-route"/></svg></span>
+        <h3>Conductores</h3>
+        <ul class="check-list">
+          <li>Herramientas para gestionar sus recorridos.</li>
+          <li>Acceso a las funciones de su panel.</li>
+          <li>Comunicación desde la aplicación.</li>
+          <li>Opciones para reportar emergencias.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <span class="icon yellow"><svg class="ico"><use href="#i-layers"/></svg></span>
+        <h3>Administradores</h3>
+        <ul class="check-list">
+          <li>Información organizada.</li>
+          <li>Gestión del servicio de transporte.</li>
+          <li>Herramientas para administrar usuarios.</li>
+          <li>Apoyo a la organización de rutas.</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="section" id="galeria">
+  <div class="wrap">
+    <header class="head">
+      <span class="eyebrow">Explora GEORD</span>
+      <h2>La aplicación por dentro</h2>
+      <p class="lead">Conoce algunas de las pantallas que forman parte de la experiencia de GEORD.</p>
+    </header>
+
+    <div class="gallery">
+      <div class="gallery-item">
+        <figure class="phone" data-screen="parents" data-label="Pantalla de padres"></figure>
+        <p class="gallery-caption">Pantalla de padres</p>
+      </div>
+      <div class="gallery-item">
+        <figure class="phone" data-screen="driver" data-label="Panel del conductor"></figure>
+        <p class="gallery-caption">Panel del conductor</p>
+      </div>
+      <div class="gallery-item">
+        <figure class="phone" data-screen="emergency" data-label="Reportes y emergencias"></figure>
+        <p class="gallery-caption">Reportes y emergencias</p>
+      </div>
+      <div class="gallery-item">
+        <figure class="phone" data-screen="admin" data-label="Panel administrativo"></figure>
+        <p class="gallery-caption">Panel administrativo</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section class="section tint" id="equipo">
+  <div class="wrap">
+    <header class="head">
+      <span class="eyebrow">Quiénes somos</span>
+      <h2>Detrás de GEORD hay un equipo que apuesta por la innovación</h2>
+      <p class="lead">Somos cinco estudiantes del Técnico en Desarrollo y Administración de Aplicaciones Informáticas. Unimos nuestros conocimientos, ideas y habilidades para desarrollar una solución tecnológica orientada a las necesidades del transporte escolar.</p>
+    </header>
+    <div class="grid g3" id="teamList"></div>
+  </div>
+</section>
+
+<!-- VIDEO: TELÉFONO MÁS PEQUEÑO -->
+<section class="section" id="demo">
+  <div class="wrap">
+    <header class="head">
+      <span class="eyebrow">Conoce cómo funciona</span>
+      <h2>Demostración de GEORD</h2>
+      <p class="lead">Un recorrido visual por la aplicación y sus principales funciones.</p>
+    </header>
+
+    <div class="demo-wrap">
+      <div class="demo-phone">
+        <div class="demo-screen">
+          <video id="demoVideo"
+            autoplay muted loop playsinline
+            preload="metadata"
+            aria-label="Video de demostración de GEORD">
+            <source src="video.mp4" type="video/mp4">
+            Tu navegador no puede reproducir este video.
+          </video>
+        </div>
+      </div>
+      <p class="demo-note">El video se reproduce automáticamente, sin sonido.</p>
+      <div class="center" style="margin-top:20px">
+        <button class="btn btn-outline" type="button" id="soundButton">Activar sonido</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREGUNTAS FRECUENTES -->
+<section class="section tint" id="faq">
+  <div class="narrow">
+    <header class="head">
+      <span class="eyebrow">Resolvemos tus dudas</span>
+      <h2>Preguntas frecuentes</h2>
+    </header>
+
+    <div class="faq">
+      <details>
+        <summary>¿Qué es GEORD?</summary>
+        <p>GEORD es una aplicación de seguimiento y gestión del transporte escolar que conecta a padres, conductores y administradores mediante herramientas digitales.</p>
+      </details>
+      <details>
+        <summary>¿A quién está dirigida la aplicación?</summary>
+        <p>Está dirigida a padres y tutores, conductores y administradores que participan en la organización y el seguimiento del transporte escolar.</p>
+      </details>
+      <details>
+        <summary>¿Cómo funciona el seguimiento GPS?</summary>
+        <p>Cuando el conductor inicia el recorrido, el sistema utiliza la ubicación del dispositivo para mostrar la posición disponible del vehículo en el mapa de la aplicación.</p>
+      </details>
+      <details>
+        <summary>¿GEORD ya está disponible para descargar?</summary>
+        <p>Actualmente, GEORD se encuentra en la etapa de presentación del proyecto. La aplicación todavía no está publicada en Google Play ni en la App Store. Mientras tanto, puedes conocer sus funciones mediante las capturas y el video de demostración de esta página.</p>
+      </details>
+      <details>
+        <summary>¿Cómo puedo conocer o probar la aplicación?</summary>
+        <p>Puedes explorar las pantallas y ver el video de demostración que encontrarás en esta página. Si deseas conocer más sobre el proyecto o solicitar información acerca de una futura prueba de la aplicación, puedes comunicarte con nuestro equipo a través de los canales de contacto que se publiquen aquí.</p>
+      </details>
+      <details>
+        <summary>¿Quién desarrolló GEORD?</summary>
+        <p>GEORD fue desarrollado por un equipo de cinco estudiantes del Técnico en Desarrollo y Administración de Aplicaciones Informáticas como una propuesta tecnológica para mejorar el seguimiento y la gestión del transporte escolar.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- PIE DE PÁGINA -->
+<footer class="footer" id="contacto">
+  <div class="wrap footer-grid">
+    <div>
+      <a class="brand" href="#inicio" aria-label="Volver al inicio de GEORD">
+        <img src="imagenes/logo1.jpeg" alt="Logo de GEORD">
+      </a>
+      <p class="footer-tag">Seguimiento inteligente, seguridad real.</p>
+      <p>Innovación que conecta y protege.</p>
+    </div>
+
+    <div>
+      <h3>Explora</h3>
+      <ul>
+        <li><a href="#conoce">Conoce GEORD</a></li>
+        <li><a href="#funciones">Funciones</a></li>
+        <li><a href="#galeria">La aplicación</a></li>
+        <li><a href="#demo">Demostración</a></li>
+        <li><a href="#equipo">Nuestro equipo</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Proyecto</h3>
+      <ul>
+        <li><span>Transporte escolar</span></li>
+        <li><span>Desarrollo de aplicaciones informáticas</span></li>
+        <li><a href="#faq">Preguntas frecuentes</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap legal">
+    <p id="copyright"></p>
+  </div>
+</footer>
+
+<script>
+/* Rutas de las capturas */
+const CONFIG = {
+  screens: {
+    login: "imagenes/login.jpeg",
+    parents: "imagenes/padres.jpeg",
+    driver: "imagenes/conductor.jpeg",
+    admin: "imagenes/admin.jpeg",
+    map: "imagenes/mapa.jpeg",
+    emergency: "imagenes/emergencia.jpeg"
+  },
+
+  /* Sustituye estos datos por los nombres y funciones reales */
+  team: [
+    { name: "Integrante 1", role: "Desarrollo de la aplicación", photo: null },
+    { name: "Integrante 2", role: "Desarrollo y programación", photo: null },
+    { name: "Integrante 3", role: "Diseño de la interfaz", photo: null },
+    { name: "Integrante 4", role: "Documentación y pruebas", photo: null },
+    { name: "Integrante 5", role: "Presentación y coordinación", photo: null }
+  ]
+};
+
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+function icon(name) {
+  return `<svg class="ico" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[character]));
+}
+
+/* Mostrar cada captura en su lugar */
+$$(".phone[data-screen]").forEach(figure => {
+  const screenName = figure.dataset.screen;
+  const label = figure.dataset.label || screenName;
+  const source = CONFIG.screens[screenName];
+
+  figure.innerHTML = '<div class="phone-screen"></div>';
+  const screen = $(".phone-screen", figure);
+
+  if (!source) {
+    screen.innerHTML = `
+      <div class="image-placeholder">
+        ${icon("image")}
+        <strong>Imagen pendiente</strong>
+        <span>${escapeHTML(label)}</span>
+      </div>`;
+    return;
+  }
+
+  const img = document.createElement("img");
+  img.src = source;
+  img.alt = label + " de GEORD";
+  img.loading = "lazy";
+
+  img.addEventListener("error", () => {
+    screen.innerHTML = `
+      <div class="image-placeholder">
+        ${icon("image")}
+        <strong>No se encontró la imagen</strong>
+        <span>${escapeHTML(source)}</span>
+      </div>`;
+  }, { once: true });
+
+  screen.appendChild(img);
+});
+
+/* Mostrar los cinco integrantes */
+$("#teamList").innerHTML = CONFIG.team.map(member => `
+  <article class="card member">
+    <div class="avatar">
+      ${member.photo
+        ? `<img src="${escapeHTML(member.photo)}" alt="Foto de ${escapeHTML(member.name)}" loading="lazy">`
+        : icon("users")}
+    </div>
+    <h3>${escapeHTML(member.name)}</h3>
+    <p>${escapeHTML(member.role)}</p>
+  </article>
+`).join("");
+
+/* Reproducción automática y en bucle */
+const demoVideo = $("#demoVideo");
+const soundButton = $("#soundButton");
+
+demoVideo.muted = true;
+demoVideo.loop = true;
+demoVideo.autoplay = true;
+demoVideo.playsInline = true;
+
+demoVideo.play().catch(() => {
+  soundButton.textContent = "Reproducir video";
+});
+
+soundButton.addEventListener("click", async () => {
+  if (demoVideo.paused) {
+    try {
+      await demoVideo.play();
+    } catch (error) {
+      soundButton.textContent = "No se pudo iniciar el video";
+      return;
+    }
+  }
+
+  demoVideo.muted = !demoVideo.muted;
+  soundButton.textContent = demoVideo.muted
+    ? "Activar sonido"
+    : "Silenciar video";
+});
+
+/* Año del pie de página */
+$("#copyright").textContent =
+  `© ${new Date().getFullYear()} GEORD. Proyecto de estudiantes del Técnico en Desarrollo y Administración de Aplicaciones Informáticas.`;
+
+/* Menú para móviles */
+(function () {
+  const toggle = $("#toggle");
+  const menu = $("#menu");
+
+  toggle.addEventListener("click", () => {
+    const isOpen = menu.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+    toggle.innerHTML = icon(isOpen ? "close" : "menu");
+  });
+
+  $$("a", menu).forEach(link => {
+    link.addEventListener("click", () => {
+      menu.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Abrir menú");
+      toggle.innerHTML = icon("menu");
+    });
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      menu.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Abrir menú");
+      toggle.innerHTML = icon("menu");
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
